@@ -1,23 +1,31 @@
-import { http, createConfig } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
-import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors'
+import { http, createConfig } from "wagmi";
+import { polygon } from "wagmi/chains";
+import { coinbaseWallet, injected, walletConnect } from "wagmi/connectors";
 
 export const config = createConfig({
-  chains: [mainnet, sepolia],
+  chains: [polygon],
   connectors: [
     injected(),
-    coinbaseWallet({ appName: 'Create Wagmi' }),
-    walletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID }),
+    coinbaseWallet({ appName: "Pivot" }),
+    walletConnect({
+      projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID ?? "",
+      metadata: {
+        name: "Pivot",
+        description:
+          "Pivot is the DeFi manager for your Web3 portfolio on Polygon.",
+        url: "https://pivot.xyz",
+        icons: ["https://pivot.xyz/favicon.ico"],
+      },
+    }),
   ],
   ssr: true,
   transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
+    [polygon.id]: http(process.env.ALCHEMY_ENDPOINT_URL ?? ""),
   },
-})
+});
 
-declare module 'wagmi' {
+declare module "wagmi" {
   interface Register {
-    config: typeof config
+    config: typeof config;
   }
 }
