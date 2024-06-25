@@ -12,9 +12,7 @@ export default function Navbar() {
           <div>
             <Link href="/">
               <svg
-                height={46}
-                width={46}
-                alignmentBaseline="auto"
+                className="h-16 w-16"
                 viewBox="0 0 102 102"
                 version="1.1"
                 id="svg1"
@@ -25,7 +23,7 @@ export default function Navbar() {
                 <g id="layer1" transform="translate(-55.097929,-52.078992)">
                   <path
                     id="path1"
-                    // className="fill-primary"
+                    className="fill-primary"
                     style={{
                       // fill: "#0e7bb4",
                       fillOpacity: 1,
@@ -34,7 +32,7 @@ export default function Navbar() {
                     d="M 106.04469,52.078992 A 50.946632,50.946632 0 0 0 55.097929,103.02524 50.946632,50.946632 0 0 0 106.04469,153.972 50.946632,50.946632 0 0 0 156.99093,103.02524 50.946632,50.946632 0 0 0 106.04469,52.078992 Z m 0,20.755839 A 30.190598,30.190598 0 0 1 136.2351,103.02524 30.190598,30.190598 0 0 1 106.04469,133.21616 30.190598,30.190598 0 0 1 75.853768,103.02524 30.190598,30.190598 0 0 1 106.04469,72.834831 Z"
                   />
                   <path
-                    // className="fill-primary"
+                    className="fill-primary"
                     style={{
                       // fill: "#0d5473",
                       fillOpacity: 1,

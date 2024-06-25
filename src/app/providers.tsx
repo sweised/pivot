@@ -10,8 +10,6 @@ import { Web3ModalProvider } from "./providers/web3-modal-provider";
 export function Providers(props: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
 
-  console.log(config);
-
   return (
     <>
       <Web3ModalProvider>
