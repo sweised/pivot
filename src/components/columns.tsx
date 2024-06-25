@@ -73,11 +73,11 @@ export const columns: ColumnDef<PositionDisplay>[] = [
       return (
         <>
           <code className="rounded bg-muted text-mono mx-[0.3rem] px-[0.3rem] py-[0.2rem] text-sm font-semibold">
-            {addressToSymbol[token0]}
+            {addressToSymbol(token0)}
           </code>
           /
           <code className="rounded bg-muted text-mono mx-[0.3rem] px-[0.3rem] py-[0.2rem] text-sm font-semibold">
-            {addressToSymbol[token1]}
+            {addressToSymbol(token1)}
           </code>
         </>
       );
