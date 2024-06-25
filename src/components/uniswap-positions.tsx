@@ -110,7 +110,7 @@ function getUniswapData(address: Address) {
         })
       : [];
 
-  const openPositions = positions?.filter((pos) => pos.liquidity > 0n);
+  const openPositions = positions?.filter((pos) => pos.liquidity > BigInt(0));
 
   const setPools = new Set<string>();
   const setTokens = new Set<`0x${string}`>();
@@ -190,8 +190,8 @@ function getUniswapData(address: Address) {
     if (token === dstToken) {
       return {
         token,
-        price: 10n ** 6n,
-        decimals: 6n,
+        price: BigInt(1000000),
+        decimals: BigInt(6),
       };
     }
 
@@ -199,10 +199,13 @@ function getUniswapData(address: Address) {
       (call) => call.args[0] === token
     );
 
-    const numerator = 10n ** BigInt(decimals);
-    const denominator = 10n ** BigInt((erc20Info?.[dstIndex] as number) + 12);
+    const numerator = BigInt("1".concat("0".repeat(Number(decimals))));
+    const denominator = BigInt(
+      "1".concat("0".repeat(Number(erc20Info?.[dstIndex]) + 12))
+    );
     const price =
-      (((tokenPrices?.[srcIndex] ?? 0n) as bigint) * numerator) / denominator;
+      (((tokenPrices?.[srcIndex] ?? BigInt(0)) as bigint) * numerator) /
+      denominator;
     return {
       token,
       price,
@@ -391,8 +394,8 @@ function getUniswapData(address: Address) {
     const feeGrowthGlobal1X128 = feeGrowthData1?.[poolIndex];
 
     const fees = getFees(
-      (feeGrowthGlobal0X128 ?? 0n) as bigint,
-      (feeGrowthGlobal1X128 ?? 0n) as bigint,
+      (feeGrowthGlobal0X128 ?? BigInt(0)) as bigint,
+      (feeGrowthGlobal1X128 ?? BigInt(0)) as bigint,
       BigInt(tickLowerFeeGrowthOutside_0 ?? 0),
       BigInt(tickUpperFeeGrowthOutside_0 ?? 0),
       BigInt(position.feeGrowthInside0LastX128 ?? 0),
@@ -444,19 +447,27 @@ function getUniswapData(address: Address) {
       const price1 = prices?.find(({ token }) => token === token1);
 
       const { price: token0Rate, decimals: token0Decimals } = price0 ?? {
-        price: 0n,
-        decimals: 18n,
+        price: BigInt(0),
+        decimals: BigInt(18),
       };
       const { price: token1Rate, decimals: token1Decimals } = price1 ?? {
-        price: 0n,
-        decimals: 18n,
+        price: BigInt(0),
+        decimals: BigInt(18),
       };
 
       return {
-        amount0: (amount0 * token0Rate) / 10n ** (token0Decimals ?? 0n),
-        amount1: (amount1 * token1Rate) / 10n ** (token1Decimals ?? 0n),
-        fees0: (fees0 * token0Rate) / 10n ** (token0Decimals ?? 0n),
-        fees1: (fees1 * token1Rate) / 10n ** (token1Decimals ?? 0n),
+        amount0:
+          (amount0 * token0Rate) /
+          BigInt("1".concat("0".repeat(Number(token0Decimals) ?? 0))),
+        amount1:
+          (amount1 * token1Rate) /
+          BigInt("1".concat("0".repeat(Number(token1Decimals) ?? 0))),
+        fees0:
+          (fees0 * token0Rate) /
+          BigInt("1".concat("0".repeat(Number(token0Decimals) ?? 0))),
+        fees1:
+          (fees1 * token1Rate) /
+          BigInt("1".concat("0".repeat(Number(token1Decimals) ?? 0))),
         tick,
       };
     }) ?? [];
@@ -513,21 +524,21 @@ export function UniswapPositions({ address }: { address: `0x${string}` }) {
     data?.reduce((prev, { positionAmountsConverted }) => {
       const { amount0, amount1, fees0, fees1 } = positionAmountsConverted;
       return prev + amount0 + amount1 + fees0 + fees1;
-    }, 0n) ?? 0n;
+    }, BigInt(0)) ?? BigInt(0);
 
   const displayData =
     data?.map((position) => {
       return {
-        id: position.tokenId ?? 0n,
+        id: position.tokenId ?? BigInt(0),
         inRange:
           position.tickLower <= (position.positionAmounts?.tick ?? 0) &&
           position.tickUpper >= (position.positionAmounts?.tick ?? 0),
         totalFees:
-          (position.positionAmountsConverted.fees0 ?? 0n) +
-          (position.positionAmountsConverted.fees1 ?? 0n),
+          (position.positionAmountsConverted.fees0 ?? BigInt(0)) +
+          (position.positionAmountsConverted.fees1 ?? BigInt(0)),
         totalLiquidity:
-          (position.positionAmountsConverted.amount0 ?? 0n) +
-          (position.positionAmountsConverted.amount1 ?? 0n),
+          (position.positionAmountsConverted.amount0 ?? BigInt(0)) +
+          (position.positionAmountsConverted.amount1 ?? BigInt(0)),
         pool: {
           token0: position.token0,
           token1: position.token1,
@@ -538,15 +549,15 @@ export function UniswapPositions({ address }: { address: `0x${string}` }) {
 
   const tokenIds = Object.keys(rowSelection).map((indexString) => {
     const index = Number(indexString);
-    return data[index]?.tokenId ?? 0n;
+    return data[index]?.tokenId ?? BigInt(0);
   });
 
   const totalFees = Object.keys(rowSelection).reduce((prev, indexString) => {
     const index = Number(indexString);
     indexString;
     const { fees0, fees1 } = data[index].positionAmountsConverted;
-    return prev + (fees0 ?? 0n) + (fees1 ?? 0n);
-  }, 0n);
+    return prev + (fees0 ?? BigInt(0)) + (fees1 ?? BigInt(0));
+  }, BigInt(0));
 
   return (
     <>
@@ -587,7 +598,8 @@ export function UniswapPositions({ address }: { address: `0x${string}` }) {
           <CardHeader>
             <CardTitle>Portfolio</CardTitle>
             <CardDescription>
-              Total ${toSignificantFigures(formatUnits(totalFunds ?? 0n, 6), 2)}
+              Total $
+              {toSignificantFigures(formatUnits(totalFunds ?? BigInt(0), 6), 2)}
             </CardDescription>
           </CardHeader>
         </Card>

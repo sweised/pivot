@@ -1,10 +1,16 @@
 import { INonfungiblePositionManagerAbi } from "@/abi/INonfungiblePositionManager";
-import { type Address, encodeFunctionData, maxUint128 } from "viem";
+import {
+  type Address,
+  encodeFunctionData,
+  maxUint128,
+  maxUint256,
+  maxUint96,
+} from "viem";
 
 const ZERO = BigInt(0);
-const Q96 = BigInt(2) ** BigInt(96);
-const Q128 = BigInt(2) ** BigInt(128);
-const Q256 = BigInt(2) ** BigInt(256);
+const Q96 = maxUint96 + BigInt(1);
+const Q128 = maxUint128 + BigInt(1);
+const Q256 = maxUint256 + BigInt(1);
 
 export const POSITION_ADDRESS = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88";
 
