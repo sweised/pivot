@@ -1,7 +1,7 @@
 "use client";
 
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { Button } from "@radix-ui/themes";
+import { Button } from "@/components/ui/button";
 import { useAccount } from "wagmi";
 import { UserIcon } from "lucide-react";
 
@@ -21,7 +21,7 @@ export function OpenW3mButton({
 
   if (isConnected) {
     return (
-      <Button onClick={() => open()}>
+      <Button variant="secondary" onClick={() => open()}>
         <UserIcon /> {address ? shortenHexAddress(address) : "No address"}
       </Button>
     );

@@ -1,20 +1,13 @@
 import "server-only";
-import { Box, Grid } from "@radix-ui/themes";
-import Navbar from "./components/navbar";
+import Navbar from "@/components/navbar";
+import Uniswap from "@/components/uniswap";
 
 function App() {
   return (
-    <Grid as="div" columns={"repeat(12, minmax(0,1fr)"} rows={"auto 1fr"}>
-      <Box as="div" gridColumn={"1 / -1"}>
-        <Navbar />
-      </Box>
-      <Box as="div" gridColumn={"1 / span 9"}>
-        <p>Hello there</p>
-      </Box>
-      <Box as="div" gridColumn={"10 / span 3"}>
-        <p>Hello again</p>
-      </Box>
-    </Grid>
+    <div className="relative grid grid-cols-[1fr_auto] grid-rows-[auto_1fr] h-screen">
+      <Navbar />
+      <Uniswap />
+    </div>
   );
 }
 

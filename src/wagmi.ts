@@ -20,7 +20,7 @@ export const config = createConfig({
   ],
   ssr: true,
   transports: {
-    [polygon.id]: http(process.env.ALCHEMY_ENDPOINT_URL ?? ""),
+    [polygon.id]: http(),
   },
 });
 
